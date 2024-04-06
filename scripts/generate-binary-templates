@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+from contextlib import suppress
+from pathlib import Path
+from subprocess import run
+
+
+def main():
+    root = Path(__file__).parent.parent
+    run("cargo build --release".split(), cwd=root / "binary")
+    template = Path(root, "binary/target/release/binary").read_bytes()
+    Path(root, "src/template").write_bytes(template)
+
+
+if __name__ == "__main__":
+    with suppress(KeyboardInterrupt):
+        main()
